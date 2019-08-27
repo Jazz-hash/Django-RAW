@@ -23,9 +23,9 @@ TEMPLATE_DIR = os.path.join(BASE_DIR, 'blog/templates/blog')
 SECRET_KEY = '*3&s%srsd2#jaxy3%y2mevi0$$a$)0*gnkbojrb4ecw%=tkhvk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['jazzel.pythonanywhere.com',]
 
 
 # Application definition
