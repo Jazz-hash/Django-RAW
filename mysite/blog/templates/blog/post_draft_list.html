@@ -1,0 +1,21 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+<h1 class="text-center posttitle">Drafts</h1>
+  <div class="container">
+    <div class="row">
+      {% for post in post_list %}
+        <div class="col-4">
+          <div class="card mt-4">
+              <div class="card-body float-left">
+                  <h4 class="card-title"><a href="{% url 'blog:post_detail' pk=post.pk %}" class="text-dark">Post title: {{ post.title }}</a></h4>
+                  <p class="card-text">Created on: {{ post.created_date|date:'d-m-Y' }}</p>
+                    <a href="{% url 'blog:post_detail' pk=post.pk %}">{{post.text|truncatechars:200}}</a>
+              </div>
+          </div>
+        </div>
+        {% empty %}
+          <p class="text-center">No Drafts</p>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+{% block content %}
+
+  <h1 class="posttitle text-center loader">{{ post.title }}</h1>
+  {% if post.published_date %}
+    <div class="date postdate h5">
+      Published on: {{ post.published_date }}
+    </div>
+  {% else %}
+    <br />
+    <a href="{% url 'blog:post_publish' pk=post.pk %}" class="btn btn-dark w-100">Publish</a>
+  {% endif %}
+  <br />
+  <br />
+  <h3 class="postcontent">{{ post.text|safe|linebreaks }}</h3>
+  <br />
+  {% if user.is_authenticated %}
+    <a href="{% url 'blog:post_remove' pk=post.pk %}" class="btn btn-danger"><span class="fa fa-trash"></span></a>
+    <a href="{% url 'blog:post_edit' pk=post.pk %}" class="btn btn-info"><span class="fa fa-pencil"></span></a>
+  {% endif %}
+  <hr>
+
+  <div class="container">
+
+    {% for comment in post.comments.all %}
+      <!-- <br /> -->
+      {% if user.is_authenticated or comment.approved_comment %}
+        {% if not comment.approved_comment %}
+          <a href="{% url 'blog:comment_approve' pk=comment.pk %}" class="btn btn-light text-success"><span class="fa fa-check"></span></a>
+          <a href="{% url 'blog:comment_remove' pk=comment.pk %}" class="btn btn-light text-danger"><span class="fa fa-remove"></span></a>
+        {% endif %}
+        <!-- <br /> -->
+        <p class="mt-2 float-right">{{ comment.create_date }}</p>
+      <p>{{ comment.text|safe|linebreaks }}</p>
+      <p>Posted By: {{ comment.author }}</p>
+      {% endif %}
+      <a class="btn btn-dark float-right" href="{% url 'blog:add_comment_to_post' pk=post.pk %}">Add Comment</a>
+
+      {% empty %}
+        <a class="btn btn-dark float-right" href="{% url 'blog:add_comment_to_post' pk=post.pk %}">Add Comment</a>
+        <p>No Comments</p>
+
+    {% endfor %}
+
+
+  </div>
+
+{% endblock %}
